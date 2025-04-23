@@ -13,12 +13,26 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: calc(100vh - 64px); /* Restamos la altura de la navbar */
             background: url('https://img.freepik.com/foto-gratis/vista-angulo-hombre-musculoso-irreconocible-preparandose-levantar-barra-club-salud_637285-2497.jpg') no-repeat center center;
             background-size: cover;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            padding: 100px 0;
+            position: relative;
+        }
+        .jumbotron::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .jumbotron > * {
+            position: relative;
+            z-index: 2;
         }
         .jumbotron h1 {
             font-size: 4rem;
@@ -31,58 +45,120 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .jumbotron .btn {
-            margin: 10px;
-            font-size: 1.2rem;
-            padding: 10px 20px;
-        }
         .features {
-            padding: 50px 0;
+            padding: 80px 0;
             background-color: white;
         }
-        .features h2 {
-            font-size: 2rem;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+        }
+        .feature-card h2 {
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
         }
-        .features p {
-            font-size: 1.2rem;
-            color: #555;
+        .feature-card p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
         }
-        .features .col-md-4 {
-            padding: 20px;
+        .cta-button {
+            display: inline-block;
+            background-color: #ff0000;
+            color: white;
+            padding: 20px 60px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+        .cta-button:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
 <body class="antialiased font-sans">
+    <!-- Barra de navegación -->
+    <nav class="bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ route('dashboard') }}" class="text-white font-bold text-2xl">
+                        Fitness First
+                    </a>
+                </div>
+
+                <!-- Botones de navegación -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200">
+                        TIMETABLE
+                    </a>
+                    <a href="#" class="text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200">
+                        BLOG
+                    </a>
+                    <a href="{{ route('login') }}" class="text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200">
+                        LOGIN
+                    </a>
+                    <a href="{{ route('register') }}" class="text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200">
+                        JOIN NOW
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
     <div class="jumbotron">
-        <h1 class="display-4">Bienvenido a Nuestro Gimnasio</h1>
-        <p class="lead">Únete a nosotros para alcanzar tus metas de fitness con los mejores entrenadores e instalaciones.</p>
-        <hr class="my-4">
-        <p>Regístrate hoy y comienza tu viaje de fitness con nosotros.</p>
-        @if (Route::has('login'))
-            @auth
-                <a href="{{ route('dashboard') }}" class="btn btn-info btn-lg" role="button">Ir al Panel de Control</a>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-primary btn-lg" role="button">Iniciar sesión</a>
-                <a href="{{ route('register') }}" class="btn btn-secondary btn-lg" role="button">Registrarse</a>
-            @endauth
-        @endif
+        <h1 class="display-4">TRANSFORM YOUR LIFE</h1>
+        <p class="lead">Join the ultimate fitness experience with world-class training and facilities</p>
+        <a href="{{ route('register') }}" class="cta-button">
+            ¡10% DE DESCUENTO!
+        </a>
     </div>
 
-    <div class="container features">
-        <div class="row">
-            <div class="col-md-4 text-center">
-                <h2>Equipos de Última Generación</h2>
-                <p>Nuestro gimnasio está equipado con las últimas máquinas de fitness y pesas libres para ayudarte a alcanzar tus objetivos.</p>
+    <!-- Features Section -->
+    <div class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <h2>State-of-the-Art Equipment</h2>
+                <p>Access to the latest fitness technology and premium exercise equipment for optimal results.</p>
             </div>
-            <div class="col-md-4 text-center">
-                <h2>Entrenadores Expertos</h2>
-                <p>Nuestros entrenadores certificados están aquí para guiarte con planes de entrenamiento personalizados y asesoramiento nutricional.</p>
+            <div class="feature-card">
+                <h2>Expert Trainers</h2>
+                <p>Work with certified professionals who will guide you through your fitness journey.</p>
             </div>
-            <div class="col-md-4 text-center">
-                <h2>Clases Grupales</h2>
-                <p>Únete a nuestras clases grupales como yoga, spinning y crossfit para mantenerte motivado y divertirte.</p>
+            <div class="feature-card">
+                <h2>Diverse Classes</h2>
+                <p>Choose from a wide range of group classes including yoga, HIIT, and strength training.</p>
             </div>
         </div>
     </div>
